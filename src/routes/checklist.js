@@ -43,13 +43,8 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    let idParam = req.params.id;
-    
-    if (idParam.slice(-1) == '>') {
-        idParam = idParam.slice(0, -1);
-    }
     try {
-        let checklist = await Checklist.findById(idParam).populate('tasks');
+        let checklist = await Checklist.findById(req.params.id).populate('tasks');
         res.status(200).render('checklists/show', {checklist: checklist});
     } catch (error) {
         res.status(500).render('pages/error', {error: 'Erro ao exibir as listas de tarefas'});
